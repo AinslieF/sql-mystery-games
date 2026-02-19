@@ -101,6 +101,9 @@ WHERE person_id = 67318;
 
 -- I searched the drivers_license table for women
 -- matching the physical description and car details.
+
+-- I used BETWEEN because the clue gave a height range
+-- so it helped me find the people whose height falls BETWEEN that range
 SELECT *
 FROM drivers_license
 WHERE gender = 'female'
@@ -113,13 +116,19 @@ WHERE gender = 'female'
 
 
 -- Next, I checked who attended the SQL Symphony Concert
--- three times in December 2017.
+
+-- the clue said the person attended the concert three times in December 2017.
+-- so I COUNTED how many times each person_id appeared and only kept who appeared 3 times only
+
+-- I GROUPED the results by person_id so I could see how many times each person attended the concert separately
+-- I used GROUP BY because the clue required finding someone who appeared exactly three times.So GROUP BY helps me to sort
 SELECT person_id, COUNT(*) as attendance_count
 FROM facebook_event_checkin
 WHERE event_name = 'SQL Symphony Concert'
   AND date BETWEEN 20171201 AND 20171231
 GROUP BY person_id
-HAVING COUNT(*) = 3;
+HAVING COUNT(*) = 3; -- HAVING lets me filter the groups after COUNTING
+-- I used it to keep only the people who showed up three times
 
 -- Two people attended three times.
 
@@ -134,6 +143,12 @@ WHERE p.id IN (24556, 99716);
 
 -- Finally, I confirmed which one matched the red hair,
 -- Tesla Model S, and height description.
+
+-- I needed to see the suspects' license plate numbers.
+-- The person table stores their license_id.
+-- The drivers_license table stores the actual plate number.
+-- So I connected the two tables using the license_id
+-- so I could see each person's name and their plate number together and that's what JOIN means
 SELECT p.name
 FROM person p
 JOIN drivers_license dl
